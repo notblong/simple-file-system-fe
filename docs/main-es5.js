@@ -2219,7 +2219,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.http = http;
         this.resourceUrl = resourceUrl;
-        this.host = 'http://localhost:9090';
+        this.host = 'https://simple-file-system.herokuapp.com';
       }
 
       _createClass(RestService, [{

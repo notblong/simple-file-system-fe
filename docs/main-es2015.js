@@ -1136,7 +1136,7 @@ class RestService {
     constructor(http, resourceUrl) {
         this.http = http;
         this.resourceUrl = resourceUrl;
-        this.host = 'http://localhost:9090';
+        this.host = 'https://simple-file-system.herokuapp.com';
     }
     get(path) {
         return this.http.get(`${this.host}/${this.resourceUrl}${path}`).toPromise();
