@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Create a new folder</h1>
+
+<div mat-dialog-content>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Folder Name" [(ngModel)]="folderName" (change)="onChange()">
+  </mat-form-field>
+  <div *ngIf="invalid" class="warning-text">Invalid name, please try again</div>
+</div>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="folderName" color="primary" [disabled]="invalid">OK</button>
+</mat-dialog-actions>

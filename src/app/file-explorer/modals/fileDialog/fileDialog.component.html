@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>{{displayName}}</h1>
+
+<div mat-dialog-content class="text-view" appearance="fill">
+  <mat-form-field class="form">
+    <textarea matInput class="form__content" [(ngModel)]="fileData"></textarea>
+  </mat-form-field>
+</div>
+
+<!-- <mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="fileData" color="primary">OK</button>
+</mat-dialog-actions> -->

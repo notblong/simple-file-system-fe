@@ -1,0 +1,22 @@
+<div class="content" role="main">
+  <div class="file-explorer">
+    <app-file-explorer
+      [fileElements]="fileElements"
+      [path]="currentPath"
+      [canNavigateUp]="canNavigateUp"
+      (folderAdded)="addFolder($event)"
+      (fileAdded)="addFile($event)"
+      (elementRemoved)="removeElement($event)"
+      (navigatedDown)="navigateToFolder($event)"
+      (navigatedUp)="navigateUp()"
+      (elementRenamed)="renameElement($event)"
+      (elementMoved)="moveElement($event)"
+    >
+    </app-file-explorer>
+  </div>
+  <div class="terminal">
+    <app-cli></app-cli>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
