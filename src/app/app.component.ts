@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CreateFileRequest } from './file-explorer/model/create-file-request';
 import { FileElement } from './file-explorer/model/element';
 import { FileRestService } from './shared/services/files/file-rest.service';
 
@@ -31,11 +32,16 @@ export class AppComponent {
     });
   }
 
-  public addFile(folder: { name: string }) {
-    const newFile = { name: folder.name, isFolder: false, path: this.currentPath ? this.currentPath : this.ROOT };
-    // this.fileExplorerService.makeDirect(newFolder.name, newFolder.path).then(() => {
-    //   this.updateFileElementQuery();
-    // });
+  public addFile(file: { name: string, data: string }) {
+    const createFileRequest = new CreateFileRequest();
+    createFileRequest.name = file.name;
+    createFileRequest.size = 10;
+    createFileRequest.path = this.currentPath ? this.currentPath : this.ROOT;
+    createFileRequest.fileExtension = 'txt';
+    createFileRequest.data = file.data;
+    this.fileExplorerService.createFile(createFileRequest).then(() => {
+      this.updateFileElementQuery();
+    });
   }
 
   public navigateToFolder(element: FileElement) {

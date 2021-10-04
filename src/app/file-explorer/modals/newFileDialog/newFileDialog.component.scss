@@ -2,3 +2,15 @@
   color: red;
   font-size: 12px;
 }
+.text-view {
+  width: 500px;
+  height: 200px;
+
+  .form {
+    width: 500px;
+
+    &__content {
+      height: 100px;
+    }
+  }
+}

@@ -10,6 +10,7 @@ export class NewFileDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<NewFileDialogComponent>) {}
 
   public fileName: string;
+  public fileData: string;
   public invalid = false;
 
   ngOnInit() {}

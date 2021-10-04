@@ -18,7 +18,7 @@ export class FileExplorerComponent implements OnInit {
   @Input() path: string;
 
   @Output() folderAdded = new EventEmitter<{ name: string }>();
-  @Output() fileAdded = new EventEmitter<{ name: string }>();
+  @Output() fileAdded = new EventEmitter<{ name: string, data: string }>();
   @Output() elementRemoved = new EventEmitter<FileElement>();
   @Output() elementRenamed = new EventEmitter<FileElement>();
   @Output() elementMoved = new EventEmitter<{ element: FileElement; moveTo: FileElement }>();
@@ -62,7 +62,7 @@ export class FileExplorerComponent implements OnInit {
     let dialogRef = this.dialog.open(NewFileDialogComponent);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.fileAdded.emit({ name: res });
+        this.fileAdded.emit({ name: res[0], data: res[1] });
       }
     });
   }
@@ -79,7 +79,7 @@ export class FileExplorerComponent implements OnInit {
 
   public openMenu(event: MouseEvent, viewChild: MatMenuTrigger) {
     event.preventDefault();
-    viewChild.openMenu();
+    // viewChild.openMenu();
   }
 
   public openDetailFile(element: FileElement) {
