@@ -139,29 +139,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _file_explorer_file_explorer_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    var _shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! ./shared/services/files/file.service */
+    "./src/app/shared/services/files/file.service.ts");
+    /* harmony import */
+
+
+    var _file_explorer_file_explorer_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
     /*! ./file-explorer/file-explorer.component */
     "./src/app/file-explorer/file-explorer.component.ts");
     /* harmony import */
 
 
-    var _cli_cli_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    var _cli_cli_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! ./cli/cli.component */
     "./src/app/cli/cli.component.ts");
     /* harmony import */
 
 
-    var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! @angular/router */
     "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
 
     var AppComponent =
     /*#__PURE__*/
     function () {
-      function AppComponent(fileExplorerService) {
+      function AppComponent(fileExplorerService, fileService) {
         _classCallCheck(this, AppComponent);
 
         this.fileExplorerService = fileExplorerService;
+        this.fileService = fileService;
         this.stack = [];
         this.ROOT = '/';
         this.currentPath = this.ROOT;
@@ -214,7 +221,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function navigateToFolder(element) {
           var currentRoot = element;
           this.stack.push(currentRoot);
-          this.currentPath = this.pushToPath(this.currentPath, element.name);
+          this.currentPath = this.fileService.pushToPath(this.currentPath, element.name);
           this.query(this.currentPath);
           this.canNavigateUp = true;
         }
@@ -224,11 +231,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           if (this.stack.length == 1) {
             this.canNavigateUp = false;
             this.stack.pop();
-            this.currentPath = this.popFromPath(this.currentPath);
+            this.currentPath = this.fileService.popFromPath(this.currentPath);
             this.updateFileElementQuery();
           } else {
             this.stack.pop();
-            this.currentPath = this.popFromPath(this.currentPath);
+            this.currentPath = this.fileService.popFromPath(this.currentPath);
             this.updateFileElementQuery();
           }
         }
@@ -245,22 +252,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "updateFileElementQuery",
         value: function updateFileElementQuery() {
           this.query(this.currentPath ? this.currentPath : this.ROOT);
-        }
-      }, {
-        key: "pushToPath",
-        value: function pushToPath(path, folderName) {
-          var p = path ? path : '';
-          p += "".concat(folderName, "/");
-          return p;
-        }
-      }, {
-        key: "popFromPath",
-        value: function popFromPath(path) {
-          var p = path ? path : '';
-          var split = p.split('/');
-          split.splice(split.length - 2, 1);
-          p = split.join('/');
-          return p;
         }
       }, {
         key: "query",
@@ -295,7 +286,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }();
 
     AppComponent.ɵfac = function AppComponent_Factory(t) {
-      return new (t || AppComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"]));
+      return new (t || AppComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__["FileService"]));
     };
 
     AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
@@ -349,7 +340,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("fileElements", ctx.fileElements)("path", ctx.currentPath)("canNavigateUp", ctx.canNavigateUp)("isLoading", ctx.isLoading);
         }
       },
-      directives: [_file_explorer_file_explorer_component__WEBPACK_IMPORTED_MODULE_3__["FileExplorerComponent"], _cli_cli_component__WEBPACK_IMPORTED_MODULE_4__["CliComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterOutlet"]],
+      directives: [_file_explorer_file_explorer_component__WEBPACK_IMPORTED_MODULE_4__["FileExplorerComponent"], _cli_cli_component__WEBPACK_IMPORTED_MODULE_5__["CliComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_6__["RouterOutlet"]],
       styles: [".content[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n}\n.content[_ngcontent-%COMP%]   .file-explorer[_ngcontent-%COMP%] {\n  height: 50%;\n}\n.content[_ngcontent-%COMP%]   .terminal[_ngcontent-%COMP%] {\n  height: 50%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvRTpcXFByb2plY3RzXFxzaW1wbGUtZmlsZS1zeXN0ZW0tZmUvc3JjXFxhcHBcXGFwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBQTtFQUNBLFlBQUE7QUNDRjtBRENFO0VBQ0UsV0FBQTtBQ0NKO0FERUU7RUFDRSxXQUFBO0FDQUoiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGVudCB7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbiAgaGVpZ2h0OiAxMDAlO1xyXG5cclxuICAuZmlsZS1leHBsb3JlciB7XHJcbiAgICBoZWlnaHQ6IDUwJTtcclxuICB9XHJcblxyXG4gIC50ZXJtaW5hbCB7XHJcbiAgICBoZWlnaHQ6IDUwJTtcclxuICB9XHJcbn1cclxuIiwiLmNvbnRlbnQge1xuICB3aWR0aDogMTAwJTtcbiAgaGVpZ2h0OiAxMDAlO1xufVxuLmNvbnRlbnQgLmZpbGUtZXhwbG9yZXIge1xuICBoZWlnaHQ6IDUwJTtcbn1cbi5jb250ZW50IC50ZXJtaW5hbCB7XG4gIGhlaWdodDogNTAlO1xufSJdfQ== */"]
     });
     /*@__PURE__*/
@@ -365,6 +356,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }], function () {
         return [{
           type: _shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"]
+        }, {
+          type: _shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__["FileService"]
         }];
       }, null);
     })();
@@ -516,7 +509,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var ng_terminal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    var _shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! ../shared/services/files/file.service */
+    "./src/app/shared/services/files/file.service.ts");
+    /* harmony import */
+
+
+    var ng_terminal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
     /*! ng-terminal */
     "./node_modules/ng-terminal/__ivy_ngcc__/fesm2015/ng-terminal.js");
 
@@ -525,10 +524,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var CliComponent =
     /*#__PURE__*/
     function () {
-      function CliComponent(fileExplorerService) {
+      function CliComponent(fileExplorerService, fileService) {
         _classCallCheck(this, CliComponent);
 
         this.fileExplorerService = fileExplorerService;
+        this.fileService = fileService;
         this.ENTER_KEYCODE = 13;
         this.BACKSPACE_KEYCODE = 8;
         this.GREEN_ANSI_COLOR = '\x1b[1;32m';
@@ -669,29 +669,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "showItemInfo",
         value: function showItemInfo(item) {
           // file shows in blue color, otherwise white color.
-          return "".concat(item.folder ? this.WHITE_ANSI_COLOR : this.BLUE_ANSI_COLOR) + "".concat(item.folder ? 'd' : 'f', " - ").concat(item.createAt ? new Date(item.createAt).toJSON().slice(0, 10).split('-').reverse().join('/') : '-', " - ").concat(item.name);
-        } // TODO: add to service
-
-      }, {
-        key: "popFromPath",
-        value: function popFromPath(path) {
-          if (this.isRoot(path)) {
-            return path;
-          }
-
-          var p = path ? path : '';
-          var split = p.split('/');
-          split.splice(split.length - 2, 1);
-          p = split.join('/');
-          return p;
-        } // TODO: add to service
-
-      }, {
-        key: "pushToPath",
-        value: function pushToPath(path, folderName) {
-          var p = path ? path : '';
-          p += "".concat(folderName, "/");
-          return p;
+          return "".concat(item.folder ? this.WHITE_ANSI_COLOR : this.BLUE_ANSI_COLOR) + "".concat(item.folder ? 'd' : 'f', " - ").concat(item.createAt ? new Date(item.createAt).toJSON().slice(0, 10).split('-').reverse().join('/') : '-', " - ").concat(item.name).concat(this.WHITE_ANSI_COLOR);
         }
       }, {
         key: "cdExtract",
@@ -706,7 +684,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             var n = backLevels ? backLevels.length : 0;
 
             for (var i = 0; i < n; i++) {
-              clone_currentPath = this.popFromPath(clone_currentPath);
+              clone_currentPath = this.fileService.popFromPath(clone_currentPath);
             } // back to parent and navigate to another dir
 
 
@@ -715,7 +693,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               return !/\.{2}/.test(x);
             });
             folders.forEach(function (folder) {
-              return clone_currentPath = _this6.pushToPath(clone_currentPath, folder);
+              return clone_currentPath = _this6.fileService.pushToPath(clone_currentPath, folder);
             });
             return clone_currentPath;
           } // [ / ] : back to home
@@ -726,7 +704,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             return clone_currentPath;
           }
 
-          return this.pushToPath(clone_currentPath, cmd);
+          return this.fileService.pushToPath(clone_currentPath, cmd);
         }
       }, {
         key: "isRoot",
@@ -745,7 +723,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }();
 
     CliComponent.ɵfac = function CliComponent_Factory(t) {
-      return new (t || CliComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"]));
+      return new (t || CliComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__["FileService"]));
     };
 
     CliComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
@@ -770,7 +748,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "ng-terminal", null, 0);
         }
       },
-      directives: [ng_terminal__WEBPACK_IMPORTED_MODULE_3__["NgTerminalComponent"]],
+      directives: [ng_terminal__WEBPACK_IMPORTED_MODULE_4__["NgTerminalComponent"]],
       styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NsaS9jbGkuY29tcG9uZW50LnNjc3MifQ== */"]
     });
     /*@__PURE__*/
@@ -786,6 +764,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }], function () {
         return [{
           type: _shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"]
+        }, {
+          type: _shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__["FileService"]
         }];
       }, {
         child: [{

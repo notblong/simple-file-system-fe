@@ -70,9 +70,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
 /* harmony import */ var _file_explorer_model_create_file_request__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./file-explorer/model/create-file-request */ "./src/app/file-explorer/model/create-file-request.ts");
 /* harmony import */ var _shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shared/services/files/file-rest.service */ "./src/app/shared/services/files/file-rest.service.ts");
-/* harmony import */ var _file_explorer_file_explorer_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./file-explorer/file-explorer.component */ "./src/app/file-explorer/file-explorer.component.ts");
-/* harmony import */ var _cli_cli_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cli/cli.component */ "./src/app/cli/cli.component.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+/* harmony import */ var _shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shared/services/files/file.service */ "./src/app/shared/services/files/file.service.ts");
+/* harmony import */ var _file_explorer_file_explorer_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./file-explorer/file-explorer.component */ "./src/app/file-explorer/file-explorer.component.ts");
+/* harmony import */ var _cli_cli_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./cli/cli.component */ "./src/app/cli/cli.component.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+
 
 
 
@@ -81,8 +83,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class AppComponent {
-    constructor(fileExplorerService) {
+    constructor(fileExplorerService, fileService) {
         this.fileExplorerService = fileExplorerService;
+        this.fileService = fileService;
         this.stack = [];
         this.ROOT = '/';
         this.currentPath = this.ROOT;
@@ -116,7 +119,7 @@ class AppComponent {
     navigateToFolder(element) {
         const currentRoot = element;
         this.stack.push(currentRoot);
-        this.currentPath = this.pushToPath(this.currentPath, element.name);
+        this.currentPath = this.fileService.pushToPath(this.currentPath, element.name);
         this.query(this.currentPath);
         this.canNavigateUp = true;
     }
@@ -124,12 +127,12 @@ class AppComponent {
         if (this.stack.length == 1) {
             this.canNavigateUp = false;
             this.stack.pop();
-            this.currentPath = this.popFromPath(this.currentPath);
+            this.currentPath = this.fileService.popFromPath(this.currentPath);
             this.updateFileElementQuery();
         }
         else {
             this.stack.pop();
-            this.currentPath = this.popFromPath(this.currentPath);
+            this.currentPath = this.fileService.popFromPath(this.currentPath);
             this.updateFileElementQuery();
         }
     }
@@ -138,18 +141,6 @@ class AppComponent {
     removeElement(element) { }
     updateFileElementQuery() {
         this.query(this.currentPath ? this.currentPath : this.ROOT);
-    }
-    pushToPath(path, folderName) {
-        let p = path ? path : '';
-        p += `${folderName}/`;
-        return p;
-    }
-    popFromPath(path) {
-        let p = path ? path : '';
-        let split = p.split('/');
-        split.splice(split.length - 2, 1);
-        p = split.join('/');
-        return p;
     }
     query(path) {
         this.isLoading = true;
@@ -175,7 +166,7 @@ class AppComponent {
             .finally(() => this.isLoading = false);
     }
 }
-AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"])); };
+AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__["FileService"])); };
 AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 6, vars: 4, consts: [["role", "main", 1, "content"], [1, "file-explorer"], [3, "fileElements", "path", "canNavigateUp", "isLoading", "folderAdded", "fileAdded", "elementRemoved", "navigatedDown", "navigatedUp", "elementRenamed", "elementMoved"], [1, "terminal"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -191,7 +182,7 @@ AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCompo
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("fileElements", ctx.fileElements)("path", ctx.currentPath)("canNavigateUp", ctx.canNavigateUp)("isLoading", ctx.isLoading);
-    } }, directives: [_file_explorer_file_explorer_component__WEBPACK_IMPORTED_MODULE_3__["FileExplorerComponent"], _cli_cli_component__WEBPACK_IMPORTED_MODULE_4__["CliComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterOutlet"]], styles: [".content[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n}\n.content[_ngcontent-%COMP%]   .file-explorer[_ngcontent-%COMP%] {\n  height: 50%;\n}\n.content[_ngcontent-%COMP%]   .terminal[_ngcontent-%COMP%] {\n  height: 50%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvRTpcXFByb2plY3RzXFxzaW1wbGUtZmlsZS1zeXN0ZW0tZmUvc3JjXFxhcHBcXGFwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBQTtFQUNBLFlBQUE7QUNDRjtBRENFO0VBQ0UsV0FBQTtBQ0NKO0FERUU7RUFDRSxXQUFBO0FDQUoiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGVudCB7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbiAgaGVpZ2h0OiAxMDAlO1xyXG5cclxuICAuZmlsZS1leHBsb3JlciB7XHJcbiAgICBoZWlnaHQ6IDUwJTtcclxuICB9XHJcblxyXG4gIC50ZXJtaW5hbCB7XHJcbiAgICBoZWlnaHQ6IDUwJTtcclxuICB9XHJcbn1cclxuIiwiLmNvbnRlbnQge1xuICB3aWR0aDogMTAwJTtcbiAgaGVpZ2h0OiAxMDAlO1xufVxuLmNvbnRlbnQgLmZpbGUtZXhwbG9yZXIge1xuICBoZWlnaHQ6IDUwJTtcbn1cbi5jb250ZW50IC50ZXJtaW5hbCB7XG4gIGhlaWdodDogNTAlO1xufSJdfQ== */"] });
+    } }, directives: [_file_explorer_file_explorer_component__WEBPACK_IMPORTED_MODULE_4__["FileExplorerComponent"], _cli_cli_component__WEBPACK_IMPORTED_MODULE_5__["CliComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_6__["RouterOutlet"]], styles: [".content[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n}\n.content[_ngcontent-%COMP%]   .file-explorer[_ngcontent-%COMP%] {\n  height: 50%;\n}\n.content[_ngcontent-%COMP%]   .terminal[_ngcontent-%COMP%] {\n  height: 50%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvRTpcXFByb2plY3RzXFxzaW1wbGUtZmlsZS1zeXN0ZW0tZmUvc3JjXFxhcHBcXGFwcC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBQTtFQUNBLFlBQUE7QUNDRjtBRENFO0VBQ0UsV0FBQTtBQ0NKO0FERUU7RUFDRSxXQUFBO0FDQUoiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGVudCB7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbiAgaGVpZ2h0OiAxMDAlO1xyXG5cclxuICAuZmlsZS1leHBsb3JlciB7XHJcbiAgICBoZWlnaHQ6IDUwJTtcclxuICB9XHJcblxyXG4gIC50ZXJtaW5hbCB7XHJcbiAgICBoZWlnaHQ6IDUwJTtcclxuICB9XHJcbn1cclxuIiwiLmNvbnRlbnQge1xuICB3aWR0aDogMTAwJTtcbiAgaGVpZ2h0OiAxMDAlO1xufVxuLmNvbnRlbnQgLmZpbGUtZXhwbG9yZXIge1xuICBoZWlnaHQ6IDUwJTtcbn1cbi5jb250ZW50IC50ZXJtaW5hbCB7XG4gIGhlaWdodDogNTAlO1xufSJdfQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AppComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -199,7 +190,7 @@ AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCompo
                 templateUrl: './app.component.html',
                 styleUrls: ['./app.component.scss']
             }]
-    }], function () { return [{ type: _shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"] }]; }, null); })();
+    }], function () { return [{ type: _shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"] }, { type: _shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__["FileService"] }]; }, null); })();
 
 
 /***/ }),
@@ -290,7 +281,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
 /* harmony import */ var _shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/services/files/file-rest.service */ "./src/app/shared/services/files/file-rest.service.ts");
-/* harmony import */ var ng_terminal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ng-terminal */ "./node_modules/ng-terminal/__ivy_ngcc__/fesm2015/ng-terminal.js");
+/* harmony import */ var _shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/services/files/file.service */ "./src/app/shared/services/files/file.service.ts");
+/* harmony import */ var ng_terminal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ng-terminal */ "./node_modules/ng-terminal/__ivy_ngcc__/fesm2015/ng-terminal.js");
+
 
 
 
@@ -298,8 +291,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const _c0 = ["term"];
 class CliComponent {
-    constructor(fileExplorerService) {
+    constructor(fileExplorerService, fileService) {
         this.fileExplorerService = fileExplorerService;
+        this.fileService = fileService;
         this.ENTER_KEYCODE = 13;
         this.BACKSPACE_KEYCODE = 8;
         this.GREEN_ANSI_COLOR = '\x1b[1;32m';
@@ -377,24 +371,7 @@ class CliComponent {
     showItemInfo(item) {
         // file shows in blue color, otherwise white color.
         return `${item.folder ? this.WHITE_ANSI_COLOR : this.BLUE_ANSI_COLOR}`
-            + `${item.folder ? 'd' : 'f'} - ${item.createAt ? new Date(item.createAt).toJSON().slice(0, 10).split('-').reverse().join('/') : '-'} - ${item.name}`;
-    }
-    // TODO: add to service
-    popFromPath(path) {
-        if (this.isRoot(path)) {
-            return path;
-        }
-        let p = path ? path : '';
-        let split = p.split('/');
-        split.splice(split.length - 2, 1);
-        p = split.join('/');
-        return p;
-    }
-    // TODO: add to service
-    pushToPath(path, folderName) {
-        let p = path ? path : '';
-        p += `${folderName}/`;
-        return p;
+            + `${item.folder ? 'd' : 'f'} - ${item.createAt ? new Date(item.createAt).toJSON().slice(0, 10).split('-').reverse().join('/') : '-'} - ${item.name}${this.WHITE_ANSI_COLOR}`;
     }
     cdExtract(cmd) {
         let clone_currentPath = this.currentPath;
@@ -403,12 +380,12 @@ class CliComponent {
         if (backLevels) {
             const n = backLevels ? backLevels.length : 0;
             for (let i = 0; i < n; i++) {
-                clone_currentPath = this.popFromPath(clone_currentPath);
+                clone_currentPath = this.fileService.popFromPath(clone_currentPath);
             }
             // back to parent and navigate to another dir
             let folders = cmd.split('/');
             folders = folders.filter(x => !(/\.{2}/).test(x));
-            folders.forEach(folder => clone_currentPath = this.pushToPath(clone_currentPath, folder));
+            folders.forEach(folder => clone_currentPath = this.fileService.pushToPath(clone_currentPath, folder));
             return clone_currentPath;
         }
         // [ / ] : back to home
@@ -416,7 +393,7 @@ class CliComponent {
             clone_currentPath = cmd;
             return clone_currentPath;
         }
-        return this.pushToPath(clone_currentPath, cmd);
+        return this.fileService.pushToPath(clone_currentPath, cmd);
     }
     isRoot(currentPath) {
         return currentPath == '/';
@@ -426,7 +403,7 @@ class CliComponent {
         this.child.write(`\r\n  ls              : list out all items directly under a folder`);
     }
 }
-CliComponent.ɵfac = function CliComponent_Factory(t) { return new (t || CliComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"])); };
+CliComponent.ɵfac = function CliComponent_Factory(t) { return new (t || CliComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__["FileService"])); };
 CliComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({ type: CliComponent, selectors: [["app-cli"]], viewQuery: function CliComponent_Query(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵstaticViewQuery"](_c0, true);
     } if (rf & 2) {
@@ -434,7 +411,7 @@ CliComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineCompo
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵloadQuery"]()) && (ctx.child = _t.first);
     } }, decls: 2, vars: 0, consts: [["term", ""]], template: function CliComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "ng-terminal", null, 0);
-    } }, directives: [ng_terminal__WEBPACK_IMPORTED_MODULE_3__["NgTerminalComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NsaS9jbGkuY29tcG9uZW50LnNjc3MifQ== */"] });
+    } }, directives: [ng_terminal__WEBPACK_IMPORTED_MODULE_4__["NgTerminalComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NsaS9jbGkuY29tcG9uZW50LnNjc3MifQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](CliComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"],
         args: [{
@@ -442,7 +419,7 @@ CliComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineCompo
                 templateUrl: './cli.component.html',
                 styleUrls: ['./cli.component.scss'],
             }]
-    }], function () { return [{ type: _shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"] }]; }, { child: [{
+    }], function () { return [{ type: _shared_services_files_file_rest_service__WEBPACK_IMPORTED_MODULE_2__["FileRestService"] }, { type: _shared_services_files_file_service__WEBPACK_IMPORTED_MODULE_3__["FileService"] }]; }, { child: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"],
             args: ['term', { static: true }]
         }] }); })();
