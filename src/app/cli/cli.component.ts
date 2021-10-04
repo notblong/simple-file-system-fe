@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { NgTerminal } from 'ng-terminal';
-import { Observable } from 'rxjs';
 import { FileRestService } from '../shared/services/files/file-rest.service';
+import { FileService } from '../shared/services/files/file.service';
 
 @Component({
   selector: 'app-cli',
@@ -20,7 +20,10 @@ export class CliComponent implements OnInit, AfterViewInit {
   public currentPath = '/';
   public command = '';
 
-  constructor(private readonly fileExplorerService: FileRestService) {}
+  constructor(
+    private readonly fileExplorerService: FileRestService,
+    private readonly fileService: FileService,
+  ) {}
 
   public ngOnInit(): void {}
 
@@ -92,27 +95,7 @@ export class CliComponent implements OnInit, AfterViewInit {
   public showItemInfo(item): string {
     // file shows in blue color, otherwise white color.
     return `${item.folder ? this.WHITE_ANSI_COLOR : this.BLUE_ANSI_COLOR}`
-      +`${item.folder ? 'd' : 'f'} - ${item.createAt ?  new Date(item.createAt).toJSON().slice(0,10).split('-').reverse().join('/') : '-'} - ${item.name}`
-  }
-
-  // TODO: add to service
-  public popFromPath(path: string) {
-    if (this.isRoot(path)) {
-      return path;
-    }
-
-    let p = path ? path : '';
-    let split = p.split('/');
-    split.splice(split.length - 2, 1);
-    p = split.join('/');
-    return p;
-  }
-
-  // TODO: add to service
-  public pushToPath(path: string, folderName: string) {
-    let p = path ? path : '';
-    p += `${folderName}/`;
-    return p;
+      +`${item.folder ? 'd' : 'f'} - ${item.createAt ?  new Date(item.createAt).toJSON().slice(0,10).split('-').reverse().join('/') : '-'} - ${item.name}${this.WHITE_ANSI_COLOR}`
   }
 
   public cdExtract(cmd: string) {
@@ -123,13 +106,13 @@ export class CliComponent implements OnInit, AfterViewInit {
     if (backLevels) {
       const n = backLevels ? backLevels.length : 0;
       for (let i = 0; i < n; i++) {
-        clone_currentPath = this.popFromPath(clone_currentPath);
+        clone_currentPath = this.fileService.popFromPath(clone_currentPath);
       }
 
       // back to parent and navigate to another dir
       let folders = cmd.split('/');
       folders = folders.filter(x => !(/\.{2}/).test(x));
-      folders.forEach(folder => clone_currentPath = this.pushToPath(clone_currentPath, folder))
+      folders.forEach(folder => clone_currentPath = this.fileService.pushToPath(clone_currentPath, folder))
       return clone_currentPath;
     }
 
@@ -139,7 +122,7 @@ export class CliComponent implements OnInit, AfterViewInit {
       return clone_currentPath;
     }
 
-    return this.pushToPath(clone_currentPath, cmd);
+    return this.fileService.pushToPath(clone_currentPath, cmd);
   }
 
   public isRoot(currentPath) {

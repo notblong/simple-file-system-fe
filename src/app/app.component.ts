@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CreateFileRequest } from './file-explorer/model/create-file-request';
 import { FileElement } from './file-explorer/model/element';
 import { FileRestService } from './shared/services/files/file-rest.service';
+import { FileService } from './shared/services/files/file.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ export class AppComponent {
 
   constructor(
     private readonly fileExplorerService: FileRestService,
+    private readonly fileService: FileService,
   ) {}
 
   public ngOnInit() {
@@ -52,7 +54,7 @@ export class AppComponent {
   public navigateToFolder(element: FileElement) {
     const currentRoot = element;
     this.stack.push(currentRoot);
-    this.currentPath = this.pushToPath(this.currentPath, element.name);
+    this.currentPath = this.fileService.pushToPath(this.currentPath, element.name);
     this.query(this.currentPath);
     this.canNavigateUp = true;
   }
@@ -61,11 +63,11 @@ export class AppComponent {
     if (this.stack.length == 1) {
       this.canNavigateUp = false;
       this.stack.pop();
-      this.currentPath = this.popFromPath(this.currentPath);
+      this.currentPath = this.fileService.popFromPath(this.currentPath);
       this.updateFileElementQuery();
     } else {
       this.stack.pop();
-      this.currentPath = this.popFromPath(this.currentPath);
+      this.currentPath = this.fileService.popFromPath(this.currentPath);
       this.updateFileElementQuery();
     }
   }
@@ -78,20 +80,6 @@ export class AppComponent {
 
   public updateFileElementQuery() {
     this.query(this.currentPath ? this.currentPath : this.ROOT);
-  }
-
-  public pushToPath(path: string, folderName: string) {
-    let p = path ? path : '';
-    p += `${folderName}/`;
-    return p;
-  }
-
-  public popFromPath(path: string) {
-    let p = path ? path : '';
-    let split = p.split('/');
-    split.splice(split.length - 2, 1);
-    p = split.join('/');
-    return p;
   }
 
   public query(path: string) {
