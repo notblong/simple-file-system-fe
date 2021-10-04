@@ -2268,13 +2268,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var RestService =
     /*#__PURE__*/
     function () {
+      // public host = 'http://localhost:9090';
       function RestService(http, resourceUrl) {
         _classCallCheck(this, RestService);
 
         this.http = http;
-        this.resourceUrl = resourceUrl; // public host = 'https://simple-file-system.herokuapp.com';
-
-        this.host = 'http://localhost:9090';
+        this.resourceUrl = resourceUrl;
+        this.host = 'https://simple-file-system.herokuapp.com';
       }
 
       _createClass(RestService, [{
