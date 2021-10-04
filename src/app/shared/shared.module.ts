@@ -14,6 +14,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgTerminalModule } from "ng-terminal";
 
 @NgModule({
@@ -34,6 +35,7 @@ import { NgTerminalModule } from "ng-terminal";
     MatGridListModule,
     MatMenuModule,
     MatDialogModule,
+    MatProgressBarModule,
     FormsModule,
     NgTerminalModule,
   ],
@@ -52,6 +54,7 @@ import { NgTerminalModule } from "ng-terminal";
     MatGridListModule,
     MatMenuModule,
     MatDialogModule,
+    MatProgressBarModule,
     FormsModule,
     NgTerminalModule,
   ],

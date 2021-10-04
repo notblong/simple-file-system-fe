@@ -16,6 +16,7 @@ export class AppComponent {
   public currentRoot: FileElement;
   public currentPath: string = this.ROOT;
   public canNavigateUp = false;
+  public isLoading = false;
 
   constructor(
     private readonly fileExplorerService: FileRestService,
@@ -27,12 +28,15 @@ export class AppComponent {
 
   public addFolder(folder: { name: string }) {
     const newFolder = { name: folder.name, isFolder: true, path: this.currentPath ? this.currentPath : this.ROOT };
+    this.isLoading = true;
     this.fileExplorerService.makeDirect(newFolder.name, newFolder.path).then(() => {
       this.updateFileElementQuery();
-    });
+    })
+    .finally(() => this.isLoading = false);
   }
 
   public addFile(file: { name: string, data: string }) {
+    this.isLoading = true;
     const createFileRequest = new CreateFileRequest();
     createFileRequest.name = file.name;
     createFileRequest.size = 10;
@@ -41,7 +45,8 @@ export class AppComponent {
     createFileRequest.data = file.data;
     this.fileExplorerService.createFile(createFileRequest).then(() => {
       this.updateFileElementQuery();
-    });
+    })
+    .finally(() => this.isLoading = false);
   }
 
   public navigateToFolder(element: FileElement) {
@@ -90,6 +95,7 @@ export class AppComponent {
   }
 
   public query(path: string) {
+    this.isLoading = true;
     this.fileExplorerService.list(path).then(resp => {
       if (resp && resp.errorCode == 0) {
         const children = resp.data;
@@ -109,6 +115,7 @@ export class AppComponent {
     })
     .catch(err => {
       console.log('error', err);
-    });
+    })
+    .finally(() => this.isLoading = false);
   }
 }

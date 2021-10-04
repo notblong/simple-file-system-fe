@@ -6,6 +6,7 @@
   <span>|</span>
   <mat-icon class="pointer" (click)="openNewFolderDialog()">create_new_folder</mat-icon>
 </mat-toolbar>
+<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 
 <div class="container" fxFlex fxLayout="row" fxLayoutAlign="space-between stretch">
   <div class="content" fxFlex fxLayout="row">
