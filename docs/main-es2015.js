@@ -1154,11 +1154,11 @@ class CreateFileRequest {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RestService", function() { return RestService; });
 class RestService {
+    // public host = 'http://localhost:9090';
     constructor(http, resourceUrl) {
         this.http = http;
         this.resourceUrl = resourceUrl;
-        // public host = 'https://simple-file-system.herokuapp.com';
-        this.host = 'http://localhost:9090';
+        this.host = 'https://simple-file-system.herokuapp.com';
     }
     get(path) {
         return this.http.get(`${this.host}/${this.resourceUrl}${path}`).toPromise();
